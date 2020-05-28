@@ -1,0 +1,358 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Filesy</name>
+    </assembly>
+    <members>
+        <member name="T:Filesy.FileSy">
+             <summary>
+             This class can be used to create a wrapper around a given <see cref="T:Filesy.IFileSyProvider"/>.
+            
+             Also provides a static field Managed that provides access to global instance of a FileSy instance backed by the <see cref="T:Filesy.Providers.ManagedFileSyProvider"/>.
+             </summary>
+        </member>
+        <member name="F:Filesy.FileSy.Managed">
+            <summary>
+            Access a static instance of the default FileSy instance backed by the Managed FileSy provider.
+            </summary>
+        </member>
+        <member name="M:Filesy.FileSy.#ctor(Filesy.IFileSyProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Filesy.FileSy"/> class.
+            </summary>
+            <param name="provider">Instance of a <see cref="T:Filesy.IFileSyProvider"/> to be used as the provider. Cannot be null.</param>
+        </member>
+        <member name="M:Filesy.FileSy.EnumerateDirectories(System.String,System.String,Filesy.FileSyEnumerateOptions)">
+            <summary>
+            Enumerate the given directory path (and optionally its subdirectories) for directory entries matching the given pattern.
+            </summary>
+            <param name="path">Path to enumerate. Cannot be null or empty. Invalid paths must throw an exception before enumeration.</param>
+            <param name="pattern">Valid search pattern. Cannot be null or empty. An invalid search pattern should throw an exception..</param>
+            <param name="enumerateOptions">Enumerate options to configure the enumeration.</param>
+            <returns>An IEnumerable&lt;FileSyDirectoryInfo&gt; that will enumerate the given path for directories on execution.</returns>
+        </member>
+        <member name="M:Filesy.FileSy.EnumerateFiles(System.String,System.String,Filesy.FileSyEnumerateOptions)">
+            <summary>
+            Enumerate the given directory path (and optionally its subdirectories) for file entries matching the given pattern.
+            </summary>
+            <param name="path">Path to enumerate. Cannot be null or empty. Invalid paths must throw an exception before enumeration.</param>
+            <param name="pattern">Valid search pattern. Cannot be null or empty. An invalid search pattern should throw an exception..</param>
+            <param name="enumerateOptions">Enumerate options to configure the enumeration.</param>
+            <returns>An IEnumerable&lt;FileSyFileInfo&gt; that will enumerate the given path for files on execution.</returns>
+        </member>
+        <member name="M:Filesy.FileSy.EnumerateFileSystemInfos(System.String,System.String,Filesy.FileSyEnumerateOptions)">
+            <summary>
+            Enumerate the given directory path (and optionally its subdirectories) for file entries matching the given pattern.
+            </summary>
+            <param name="path">Path to enumerate. Cannot be null or empty. Invalid paths must throw an exception before enumeration.</param>
+            <param name="pattern">Valid search pattern. Cannot be null or empty. An invalid search pattern should throw an exception..</param>
+            <param name="enumerateOptions">Enumerate options to configure the enumeration.</param>
+            <returns>An IEnumerable&lt;FileSyFileInfo&gt; that will enumerate the given path for files on execution.</returns>
+        </member>
+        <member name="T:Filesy.FileSyDirectoryInfo">
+            <summary>
+            Base class for Filesy directory entries.
+            </summary>
+        </member>
+        <member name="M:Filesy.FileSyDirectoryInfo.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Filesy.FileSyDirectoryInfo"/> class.
+            </summary>
+            <param name="fullName">Full path of the directory. Assumed to not be null therefor a null value should never be passed.</param>
+        </member>
+        <member name="T:Filesy.FileSyEnumerateOptions">
+            <summary>
+            This struct provides storage for enumeration related options.
+            </summary>
+        </member>
+        <member name="F:Filesy.FileSyEnumerateOptions.TopDirectoryOnly">
+            <summary>
+            Access the preconfigured options that will enumerate the top directory only.
+            </summary>
+        </member>
+        <member name="F:Filesy.FileSyEnumerateOptions.AllDirectories">
+            <summary>
+            Access the preconfigured options that will enumerate the top directory and all sub directories, recursively. Reparse points will be enumerated by default.
+            </summary>
+        </member>
+        <member name="M:Filesy.FileSyEnumerateOptions.#ctor(System.IO.SearchOption)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Filesy.FileSyEnumerateOptions"/> struct.
+            </summary>
+            <param name="searchOption">Search option to use. Reparse points will be enumerated where applicable.</param>
+        </member>
+        <member name="M:Filesy.FileSyEnumerateOptions.#ctor(System.IO.SearchOption,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Filesy.FileSyEnumerateOptions"/> struct.
+            </summary>
+            <param name="searchOption">Search option to use.</param>
+            <param name="enumerateReparse">Value indicating whether reparse points should be enumerated as well where applicable.</param>
+        </member>
+        <member name="P:Filesy.FileSyEnumerateOptions.Option">
+            <summary>
+            Gets the configured search option.
+            </summary>
+        </member>
+        <member name="P:Filesy.FileSyEnumerateOptions.EnumerateReparse">
+            <summary>
+            Gets a value indicating whether reparse points should be enumerated. This only affects sub directory enumeration.
+            </summary>
+        </member>
+        <member name="M:Filesy.FileSyEnumerateOptions.op_Implicit(Filesy.FileSyEnumerateOptions)~System.IO.SearchOption">
+            <summary>
+            Extract the SearchOption out of the options and return it.
+            </summary>
+            <param name="enumerateOptions">Source value to extract the SearchOption value from.</param>
+        </member>
+        <member name="M:Filesy.FileSyEnumerateOptions.op_Implicit(System.IO.SearchOption)~Filesy.FileSyEnumerateOptions">
+            <summary>
+            Convert the SearchOption into a FileSyEnumerateOptions value with reparse point enumeration enabled.
+            </summary>
+            <param name="searchOption">Search option to convert.</param>
+        </member>
+        <member name="M:Filesy.FileSyEnumerateOptions.op_Equality(Filesy.FileSyEnumerateOptions,Filesy.FileSyEnumerateOptions)">
+            <summary>
+            Check values for equality.
+            </summary>
+            <param name="left">Left side value.</param>
+            <param name="right">Right side value.</param>
+            <returns>Whether or not the given values are equal.</returns>
+        </member>
+        <member name="M:Filesy.FileSyEnumerateOptions.op_Inequality(Filesy.FileSyEnumerateOptions,Filesy.FileSyEnumerateOptions)">
+            <summary>
+            Check values for inequality.
+            </summary>
+            <param name="left">Left side value.</param>
+            <param name="right">Right side value.</param>
+            <returns>Whether or not the given values are not equal.</returns>
+        </member>
+        <member name="M:Filesy.FileSyEnumerateOptions.EnumeratesReparse(System.Boolean)">
+            <summary>
+            Return a new FileSyEnumerateOptions based on the current value with the EnumerateReparse option changed to the given value.
+            </summary>
+            <param name="enumerateReparse">New value for the EnumerateReparse option.</param>
+            <returns>A new FileSyEnumerateOptions value.</returns>
+        </member>
+        <member name="M:Filesy.FileSyEnumerateOptions.Equals(Filesy.FileSyEnumerateOptions)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Filesy.FileSyEnumerateOptions.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Filesy.FileSyEnumerateOptions.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="T:Filesy.FileSyFileInfo">
+            <summary>
+            Base class for Filesy file entries.
+            </summary>
+        </member>
+        <member name="M:Filesy.FileSyFileInfo.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Filesy.FileSyFileInfo"/> class.
+            </summary>
+            <param name="fullName">Full path of the file. Assumed to not be null therefor a null value should never be passed.</param>
+        </member>
+        <member name="P:Filesy.FileSyFileInfo.Length">
+            <summary>
+            Gets the size, in bytes, of the file.
+            </summary>
+            <remarks>Must return -1 when an exception occurred while trying get this info.</remarks>
+        </member>
+        <member name="T:Filesy.FileSyInfo">
+            <summary>
+            Base class for Filesy entries.
+            </summary>
+        </member>
+        <member name="M:Filesy.FileSyInfo.#ctor(System.String,Filesy.FileSyInfoType)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Filesy.FileSyInfo"/> class.
+            </summary>
+            <param name="fullName">Full path of the entry. Assumed to not be null therefor a null value should never be passed.</param>
+            <param name="type">Filesy entry type.</param>
+        </member>
+        <member name="P:Filesy.FileSyInfo.Type">
+            <summary>
+            Gets the type of filesy entry.
+            </summary>
+        </member>
+        <member name="P:Filesy.FileSyInfo.FullName">
+            <summary>
+            Gets the full path of the filesy entry.
+            </summary>
+        </member>
+        <member name="P:Filesy.FileSyInfo.Name">
+            <summary>
+            Gets the name part of the filesy entry.
+            </summary>
+        </member>
+        <member name="P:Filesy.FileSyInfo.Extension">
+            <summary>
+            Gets the extension of the filesy entry.
+            </summary>
+        </member>
+        <member name="P:Filesy.FileSyInfo.Exists">
+            <summary>
+            Gets a value indicating whether the filesy entry exists and that the info could be read properly.
+            </summary>
+            <remarks>Must return a false if an exception was thrown trying to get this info.</remarks>
+        </member>
+        <member name="P:Filesy.FileSyInfo.Attributes">
+            <summary>
+            Gets the attributes for the current filesy entry.
+            </summary>
+            <remarks>Must return a 0 flag if an exception was thrown trying to get this info.</remarks>
+        </member>
+        <member name="P:Filesy.FileSyInfo.LastAccessTimeUtc">
+            <summary>
+            Gets the last access time (UTC) for the current filesy entry.
+            </summary>
+            <remarks>Must return DateTime.MinValue if an exception was thrown trying to get this info.</remarks>
+        </member>
+        <member name="P:Filesy.FileSyInfo.LastWriteTimeUtc">
+            <summary>
+            Gets the last write time (UTC) for the current filesy entry.
+            </summary>
+            <remarks>Must return DateTime.MinValue if an exception was thrown trying to get this info.</remarks>
+        </member>
+        <member name="P:Filesy.FileSyInfo.CreationTimeUtc">
+            <summary>
+            Gets the creation time time (UTC) for the current filesy entry.
+            </summary>
+            <remarks>Must return DateTime.MinValue if an exception was thrown trying to get this info.</remarks>
+        </member>
+        <member name="P:Filesy.FileSyInfo.Directory">
+            <summary>
+            Gets the parent directory, if any.
+            </summary>
+        </member>
+        <member name="M:Filesy.FileSyInfo.Refresh">
+            <summary>
+            Attempt to refresh the cached information, if any.
+            </summary>
+            <remarks>Must throw an exception on failure.</remarks>
+        </member>
+        <member name="T:Filesy.FileSyInfoType">
+            <summary>
+            This enum contains the possible types that a Filesy entry can be.
+            </summary>
+        </member>
+        <member name="F:Filesy.FileSyInfoType.File">
+            <summary>
+            This is a file entry.
+            </summary>
+        </member>
+        <member name="F:Filesy.FileSyInfoType.Directory">
+            <summary>
+            This is a directory entry.
+            </summary>
+        </member>
+        <member name="T:Filesy.IFileSyProvider">
+            <summary>
+            Provides the interface that each FileSy provider must implement.
+            </summary>
+        </member>
+        <member name="M:Filesy.IFileSyProvider.EnumerateDirectories(System.String,System.String,Filesy.FileSyEnumerateOptions)">
+            <summary>
+            Enumerate the given directory path (and optionally its subdirectories) for directory entries matching the given pattern.
+            </summary>
+            <param name="path">Path to enumerate. Cannot be null or empty. Invalid paths must throw an exception before enumeration.</param>
+            <param name="pattern">Valid search pattern. Cannot be null or empty. An invalid search pattern should throw an exception..</param>
+            <param name="enumerateOptions">Enumerate options to configure the enumeration.</param>
+            <returns>An IEnumerable&lt;FileSyDirectoryInfo&gt; that will enumerate the given path for directories on execution.</returns>
+        </member>
+        <member name="M:Filesy.IFileSyProvider.EnumerateFiles(System.String,System.String,Filesy.FileSyEnumerateOptions)">
+            <summary>
+            Enumerate the given directory path (and optionally its subdirectories) for file entries matching the given pattern.
+            </summary>
+            <param name="path">Path to enumerate. Cannot be null or empty. Invalid paths must throw an exception before enumeration.</param>
+            <param name="pattern">Valid search pattern. Cannot be null or empty. An invalid search pattern should throw an exception..</param>
+            <param name="enumerateOptions">Enumerate options to configure the enumeration.</param>
+            <returns>An IEnumerable&lt;FileSyFileInfo&gt; that will enumerate the given path for files on execution.</returns>
+        </member>
+        <member name="M:Filesy.IFileSyProvider.EnumerateFileSystemInfos(System.String,System.String,Filesy.FileSyEnumerateOptions)">
+            <summary>
+            Enumerate the given directory path (and optionally its subdirectories) for file entries matching the given pattern.
+            </summary>
+            <param name="path">Path to enumerate. Cannot be null or empty. Invalid paths must throw an exception before enumeration.</param>
+            <param name="pattern">Valid search pattern. Cannot be null or empty. An invalid search pattern should throw an exception..</param>
+            <param name="enumerateOptions">Enumerate options to configure the enumeration.</param>
+            <returns>An IEnumerable&lt;FileSyFileInfo&gt; that will enumerate the given path for files on execution.</returns>
+        </member>
+        <member name="T:Filesy.Providers.Managed.ManagedFileSyDirectoryInfo">
+            <summary>
+            This class provides a managed implementation for retrieving directory information.
+            </summary>
+        </member>
+        <member name="P:Filesy.Providers.Managed.ManagedFileSyDirectoryInfo.Directory">
+            <inheritdoc />
+        </member>
+        <member name="P:Filesy.Providers.Managed.ManagedFileSyDirectoryInfo.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:Filesy.Providers.Managed.ManagedFileSyDirectoryInfo.Exists">
+            <inheritdoc />
+        </member>
+        <member name="P:Filesy.Providers.Managed.ManagedFileSyDirectoryInfo.LastAccessTimeUtc">
+            <inheritdoc />
+        </member>
+        <member name="P:Filesy.Providers.Managed.ManagedFileSyDirectoryInfo.LastWriteTimeUtc">
+            <inheritdoc />
+        </member>
+        <member name="P:Filesy.Providers.Managed.ManagedFileSyDirectoryInfo.CreationTimeUtc">
+            <inheritdoc />
+        </member>
+        <member name="P:Filesy.Providers.Managed.ManagedFileSyDirectoryInfo.Attributes">
+            <inheritdoc />
+        </member>
+        <member name="M:Filesy.Providers.Managed.ManagedFileSyDirectoryInfo.Refresh">
+            <inheritdoc />
+        </member>
+        <member name="T:Filesy.Providers.Managed.ManagedFileSyFileInfo">
+            <summary>
+            This class provides a managed implementation for retrieving file information.
+            </summary>
+        </member>
+        <member name="P:Filesy.Providers.Managed.ManagedFileSyFileInfo.Directory">
+            <inheritdoc />
+        </member>
+        <member name="P:Filesy.Providers.Managed.ManagedFileSyFileInfo.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:Filesy.Providers.Managed.ManagedFileSyFileInfo.Exists">
+            <inheritdoc />
+        </member>
+        <member name="P:Filesy.Providers.Managed.ManagedFileSyFileInfo.LastAccessTimeUtc">
+            <inheritdoc />
+        </member>
+        <member name="P:Filesy.Providers.Managed.ManagedFileSyFileInfo.LastWriteTimeUtc">
+            <inheritdoc />
+        </member>
+        <member name="P:Filesy.Providers.Managed.ManagedFileSyFileInfo.CreationTimeUtc">
+            <inheritdoc />
+        </member>
+        <member name="P:Filesy.Providers.Managed.ManagedFileSyFileInfo.Length">
+            <inheritdoc />
+        </member>
+        <member name="P:Filesy.Providers.Managed.ManagedFileSyFileInfo.Attributes">
+            <inheritdoc />
+        </member>
+        <member name="M:Filesy.Providers.Managed.ManagedFileSyFileInfo.Refresh">
+            <inheritdoc />
+        </member>
+        <member name="T:Filesy.Providers.ManagedFileSyProvider">
+            <summary>
+            This class provides a managed implementation of <see cref="T:Filesy.IFileSyProvider"/>.
+            </summary>
+        </member>
+        <member name="M:Filesy.Providers.ManagedFileSyProvider.EnumerateDirectories(System.String,System.String,Filesy.FileSyEnumerateOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:Filesy.Providers.ManagedFileSyProvider.EnumerateFiles(System.String,System.String,Filesy.FileSyEnumerateOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:Filesy.Providers.ManagedFileSyProvider.EnumerateFileSystemInfos(System.String,System.String,Filesy.FileSyEnumerateOptions)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
